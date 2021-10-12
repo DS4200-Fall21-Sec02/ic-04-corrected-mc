@@ -26,6 +26,7 @@ const svg1 = d3.select('#d3-container')
 d3.csv("data/data.csv").then(function (data) {
 
   const number = data.columns.slice(1);
+
   // X axis
   let x = d3.scaleBand()
   .range([margin.left, width])
@@ -74,11 +75,22 @@ d3.csv("data/data.csv").then(function (data) {
   .attr("fill", "#69b3a2")
   .on("mouseover", function (event, d) {
     d3.select(this).attr("fill", "red")
+    let coords = d3.pointer(event)
     //Update Tooltip Position & value
     tooltip
-    //.style('top', e.clientY - 10 + 'px')
-    //.style('left', e.clientX + 10 + 'px')
-    .text(d.key + ", " + d.value)
+    .style('top', coords[1] + 10 + 'px')
+    .style('left', coords[0] + 10 + 'px')
+    .text(d.value)
+    .style("visibility", "visible")
+  })
+  .on("mousemove", function (event, d) {
+    d3.select(this).attr("fill", "red")
+    let coords = d3.pointer(event, svg1)
+    //Update Tooltip Position & value
+    tooltip
+    .style('top', coords[1] + 10 + 'px')
+    .style('left', coords[0] + 10 + 'px')
+    .text(d.value)
     .style("visibility", "visible")
   })
   .on("mouseout", function () {
