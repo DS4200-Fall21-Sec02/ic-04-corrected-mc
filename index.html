@@ -2,6 +2,20 @@
 <html>
 <head>
   <title>D3 Practice</title>
+  <style>
+      .tooltip {
+          position: absolute;
+          text-align: center;
+          width: 60px;
+          height: 28px;
+          padding: 2px;
+          font: 12px sans-serif;
+          background: lightsteelblue;
+          border: 0px;
+          border-radius: 8px;
+          pointer-events: none;
+      }
+  </style>
   <script src="lib/d3.v6.1.1/d3.js"></script>
   <link rel='stylesheet' href='style.css'>
   
@@ -10,11 +24,26 @@
   <div style="text-align: center;">
     <h1>D3 Practice</h1>
 
-    <div id="d3-container">
-    </div>
+    <div id="d3-container"></div>
 
   </div>
   <script type="text/javascript" src="js/main.js"></script>
+
+  <h2>Acknowledgments</h2>
+
+  <p>
+    <em>List here where any code, packages/libraries, text, images, designs, etc. that you leverage come from.</em>
+    <br>
+  <li><a href='https://www.d3-graph-gallery.com/graph/barplot_grouped_basicWide.html'>D3 Graph Gallery: Grouped Bar Chart</a>
+    insight of how to implement bar chart
+  </li>
+  <li><a href='https://observablehq.com/@d3/grouped-bar-chart'>Observable: Grouped Bar Chart</a>
+    viewed to help with debugging bar chart
+  </li>
+  <li><a href='https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2'>Show data on mouse-over with d3.js</a>
+    using events in d3
+  </li>
+  </p>
 
 </body>
 </html>
