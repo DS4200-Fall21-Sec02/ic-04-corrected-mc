@@ -24,6 +24,10 @@ const svg1 = d3.select('#d3-container')
       height + margin.top + margin.bottom].join(' '))
 
 d3.csv("data/data.csv").then(function (data) {
+  let map = new Map();
+  for (let i = 0; i < data.length; i++) {
+    map.set(data[i].X, data[i].Y);
+  }
 
   const number = data.columns.slice(1);
 
@@ -59,40 +63,29 @@ d3.csv("data/data.csv").then(function (data) {
   .style("z-index", "10")
   .style("visibility", "hidden")
 
-  svg1.append("g")
-  .selectAll("g")
-  .data(data)
-  .join("g")
-  .attr("transform", d =>
-      `translate(${x(d[data.columns[0]]) - x1.bandwidth() / 4},${0})`)
-  .selectAll("rect")
-  .data(d => number.map(key => ({key, value: d[key]})))
-  .join("rect")
-  .attr("x", d => x(d.key))
-  .attr("y", d => y(d.value))
-  .attr("width", x1.bandwidth() / 2)
-  .attr("height", d => y(0) - y(d.value))
-  .attr("fill", "#69b3a2")
-  .on("mouseover", function (event, d) {
+  function hover(event, d) {
     d3.select(this).attr("fill", "red")
-    let coords = d3.pointer(event)
-    //Update Tooltip Position & value
-    tooltip
-    .style('top', coords[1] + 10 + 'px')
-    .style('left', coords[0] + 10 + 'px')
-    .text(d.value)
-    .style("visibility", "visible")
-  })
-  .on("mousemove", function (event, d) {
-    d3.select(this).attr("fill", "red")
+    console.log(d)
     let coords = d3.pointer(event, svg1)
     //Update Tooltip Position & value
     tooltip
     .style('top', coords[1] + 10 + 'px')
     .style('left', coords[0] + 10 + 'px')
-    .text(d.value)
+    .text(d[data.columns[0]] + "," + d[data.columns[1]])
     .style("visibility", "visible")
-  })
+  }
+
+  svg1.append("g")
+  .selectAll("rect")
+  .data(data)
+  .join("rect")
+  .attr("transform", d =>
+      `translate(${x(d[data.columns[0]]) - x1.bandwidth() / 4},${y(d[data.columns[1]])})`)
+  .attr("width", x1.bandwidth() / 2)
+  .attr("height", d => y(0) - y(d[data.columns[1]]))
+  .attr("fill", "#69b3a2")
+  .on("mouseover", hover)
+  .on("mousemove", hover)
   .on("mouseout", function () {
     d3.select(this).attr("fill", "#69b3a2")
     tooltip.style("visibility", "hidden");
@@ -106,4 +99,3 @@ d3.csv("data/data.csv").then(function (data) {
   .attr("transform", "translate(" + margin.left + ",0)")
   .call(d3.axisLeft(y));
 });
-
